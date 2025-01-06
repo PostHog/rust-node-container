@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_VERSION: bullseye_rust_1.80.1-node_18.19.1
+      IMAGE_VERSION: bookworm_rust_1.80.1-node_18.19.1
 
     steps:
       - name: Checkout code
