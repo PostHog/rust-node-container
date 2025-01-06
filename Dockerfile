@@ -1,4 +1,4 @@
-FROM buildpack-deps:bullseye
+FROM buildpack-deps:bookworm
 
 # ----------------------
 # rust 1.80.1 via https://github.com/rust-lang/docker-rust/blob/3b6565cd3b0b7c9cb084f07461cb959f7cf77c16/1.80.1/bookworm/Dockerfile
