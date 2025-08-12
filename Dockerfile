@@ -1,7 +1,7 @@
 FROM buildpack-deps:bookworm
 
 # ----------------------
-# rust 1.88.0 via https://github.com/rust-lang/docker-rust/blob/3b6565cd3b0b7c9cb084f07461cb959f7cf77c16/1.80.1/bookworm/Dockerfile
+# rust 1.88.0 via https://github.com/rust-lang/docker-rust/blob/9ba2805c3642783b50436e140f5eaa9ecf173054/stable/bookworm/Dockerfile
 # ----------------------
 LABEL org.opencontainers.image.source=https://github.com/rust-lang/docker-rust
 
