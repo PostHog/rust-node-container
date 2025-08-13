@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - jose-sequeira/upgrade-rust-1.88-node-22
   pull_request:
     branches:
       - main
