@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - jose-sequeira/upgrade-node-24
   pull_request:
     branches:
       - main
+      - jose-sequeira/upgrade-node-24
 
 jobs:
   build:
