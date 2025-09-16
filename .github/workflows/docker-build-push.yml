@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_VERSION: bookworm_rust_1.88-node_22.17.1
+      IMAGE_VERSION: bookworm_rust_1.88-node_24.8.0
 
     steps:
       - name: Checkout code
