@@ -28,6 +28,43 @@ jobs:
           echo "Detected versions: Rust ${RUST_VERSION}, Node ${NODE_VERSION}"
           echo "Image version: ${IMAGE_VERSION}"
 
+      - name: Validate extracted versions
+        run: |
+          RUST_VERSION="${{ steps.versions.outputs.rust_version }}"
+          NODE_VERSION="${{ steps.versions.outputs.node_version }}"
+          IMAGE_VERSION="${{ steps.versions.outputs.image_version }}"
+
+          # Check RUST_VERSION is not empty and matches version pattern
+          if [ -z "$RUST_VERSION" ]; then
+            echo "::error::Failed to extract RUST_VERSION from Dockerfile"
+            exit 1
+          fi
+          if ! echo "$RUST_VERSION" | grep -qE '^[0-9]+\.[0-9]+'; then
+            echo "::error::RUST_VERSION '$RUST_VERSION' does not match expected pattern (e.g., 1.88)"
+            exit 1
+          fi
+
+          # Check NODE_VERSION is not empty and matches version pattern
+          if [ -z "$NODE_VERSION" ]; then
+            echo "::error::Failed to extract NODE_VERSION from Dockerfile"
+            exit 1
+          fi
+          if ! echo "$NODE_VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::NODE_VERSION '$NODE_VERSION' does not match expected pattern (e.g., 22.17.1)"
+            exit 1
+          fi
+
+          # Validate final image version format
+          if ! echo "$IMAGE_VERSION" | grep -qE '^bookworm_rust_[0-9]+\.[0-9]+-node_[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::IMAGE_VERSION '$IMAGE_VERSION' does not match expected format"
+            exit 1
+          fi
+
+          echo "Validation passed:"
+          echo "  RUST_VERSION: $RUST_VERSION"
+          echo "  NODE_VERSION: $NODE_VERSION"
+          echo "  IMAGE_VERSION: $IMAGE_VERSION"
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
