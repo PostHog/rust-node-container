@@ -1,14 +1,14 @@
 FROM buildpack-deps:bookworm
 
 # ----------------------
-# rust 1.92.0 via https://github.com/rust-lang/docker-rust/blob/3b6565cd3b0b7c9cb084f07461cb959f7cf77c16/1.80.1/bookworm/Dockerfile
+# rust 1.91 via https://github.com/rust-lang/docker-rust/blob/3b6565cd3b0b7c9cb084f07461cb959f7cf77c16/1.80.1/bookworm/Dockerfile
 # ----------------------
 LABEL org.opencontainers.image.source=https://github.com/rust-lang/docker-rust
 
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH \
-    RUST_VERSION=1.92
+    RUST_VERSION=1.91
 
 RUN set -eux; \
     dpkgArch="$(dpkg --print-architecture)"; \
@@ -50,7 +50,7 @@ RUN ((cat /etc/os-release | grep ID | grep alpine) && apk add --no-cache musl-de
 RUN groupadd --gid 1000 node \
   && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
 
-ENV NODE_VERSION=24.13.0
+ENV NODE_VERSION=22.22.0
 
 RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && case "${dpkgArch##*-}" in \
