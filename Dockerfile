@@ -1,4 +1,6 @@
-FROM buildpack-deps:bookworm
+# Debian suite to build against (e.g. bookworm or trixie)
+ARG DEBIAN_SUITE=trixie
+FROM buildpack-deps:${DEBIAN_SUITE}
 
 # ----------------------
 # rust 1.91 via https://github.com/rust-lang/docker-rust/blob/3b6565cd3b0b7c9cb084f07461cb959f7cf77c16/1.80.1/bookworm/Dockerfile
