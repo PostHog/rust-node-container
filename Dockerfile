@@ -1,4 +1,4 @@
-FROM buildpack-deps:bookworm
+FROM buildpack-deps:trixie
 
 # ----------------------
 # rust 1.91 via https://github.com/rust-lang/docker-rust/blob/3b6565cd3b0b7c9cb084f07461cb959f7cf77c16/1.80.1/bookworm/Dockerfile
