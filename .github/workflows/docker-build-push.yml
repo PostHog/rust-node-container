@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
+        with:
+          persist-credentials: false
 
       - name: Extract versions from Dockerfile
         id: versions
@@ -33,11 +35,11 @@ jobs:
           echo "Image version: ${IMAGE_VERSION}"
 
       - name: Validate extracted versions
+        env:
+          RUST_VERSION: ${{ steps.versions.outputs.rust_version }}
+          NODE_VERSION: ${{ steps.versions.outputs.node_version }}
+          IMAGE_VERSION: ${{ steps.versions.outputs.image_version }}
         run: |
-          RUST_VERSION="${{ steps.versions.outputs.rust_version }}"
-          NODE_VERSION="${{ steps.versions.outputs.node_version }}"
-          IMAGE_VERSION="${{ steps.versions.outputs.image_version }}"
-
           # Check RUST_VERSION is not empty and matches version pattern
           if [ -z "$RUST_VERSION" ]; then
             echo "::error::Failed to extract RUST_VERSION from Dockerfile"
@@ -80,9 +82,9 @@ jobs:
         run: |
           # Build and tag the Docker image with the version
           docker buildx create --use
-          if [ "${{ github.event_name }}" = "push" ]; then
+          if [ "$EVENT_NAME" = "push" ]; then
             docker buildx build --push \
-              --tag ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]'):${{ steps.versions.outputs.image_version }} \
+              --tag "ghcr.io/$(echo "$REPOSITORY" | tr '[:upper:]' '[:lower:]'):$IMAGE_VERSION" \
               --platform linux/amd64,linux/arm64 .
           else
             docker buildx build \
@@ -91,3 +93,6 @@ jobs:
 
         env:
           DOCKER_CLI_ACI_AS_TEXT: "true"
+          EVENT_NAME: ${{ github.event_name }}
+          REPOSITORY: ${{ github.repository }}
+          IMAGE_VERSION: ${{ steps.versions.outputs.image_version }}
