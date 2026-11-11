@@ -47,12 +47,12 @@ RUN ((cat /etc/os-release | grep ID | grep alpine) && apk add --no-cache musl-de
     && rm -rf $CARGO_HOME/registry/
 
 # ----------------------
-# node 26.13.0 via https://github.com/nodejs/docker-node/blob/main/26/bookworm/Dockerfile
+# node 26.13.1 via https://github.com/nodejs/docker-node/blob/main/26/bookworm/Dockerfile
 # ----------------------
 RUN groupadd --gid 1000 node \
   && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
 
-ENV NODE_VERSION=26.13.0
+ENV NODE_VERSION=26.13.1
 
 RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && case "${dpkgArch##*-}" in \
